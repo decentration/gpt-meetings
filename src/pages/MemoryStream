@@ -1,0 +1,23 @@
+// import React, { useEffect, useState } from 'react';
+// import { fetchMemories } from '../api/memoryApi';
+
+// const MemoryStream: React.FC = () => {
+//   const [memories, setMemories] = useState([]);
+
+//   useEffect(() => {
+//     async function loadMemories() {
+//       const memoryData = await fetchMemories();
+//       setMemories(memoryData);
+//     }
+
+//     loadMemories();
+//   }, []);
+
+//   return (
+//     <div>
+//       {/* Render memory stream, conversation history, and other UI components */}
+//     </div>
+//   );
+// };
+
+// export default MemoryStream;

@@ -88,18 +88,25 @@ const App: React.FC = () => {
   };
 
   return (
-    <Router>
-      <div className="flex flex-col lg:flex-row lg:min-h-screen">
-        <div className={`sidebar w-full lg:w-64 bg-gray-100 p-4 ${showSidebar ? 'block' : 'hidden'}`}>
-          <Sidebar
-            conversationList={conversationList}
-            setActiveConversation={setActiveConversation}
-          />
-        </div>
-        <div className="main-content flex-grow">
-          <Navbar toggleSidebar={toggleSidebar} />
-          <CreateInstance instances={instances} setInstances={setInstances} />
-          <CreateConversation instances={instances} />
+    <div className="flex flex-col lg:flex-row lg:min-h-screen">
+      <div className={`sidebar w-full lg:w-64 bg-gray-100 p-4 ${showSidebar ? 'block' : 'hidden'}`}>
+        <Sidebar
+          conversationList={conversationList}
+          setActiveConversation={setActiveConversation}
+        />
+      </div>
+      <div className="main-content flex-grow">
+        <nav className="bg-white shadow-lg p-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-lg font-semibold">Subchorus</h1>
+            <button onClick={toggleSidebar} className="block lg:hidden">
+              {/* No svg icon here */}
+            </button>
+          </div>
+        </nav>
+        <CreateInstance instances={instances} setInstances={setInstances} />
+        <CreateConversation instances={instances} />
+        <Router>
           <nav>
             <Link className="bg-white text-gray-600 font-bold px-3 py-2 rounded border-solid border-2 border-indigo-600" to="/instances">Instances</Link>
           </nav>
@@ -109,15 +116,19 @@ const App: React.FC = () => {
               {/* <Route path="/memory-stream" element={<MemoryStream />} /> */}
             </Routes>
           </div>
-        </div>
-        <div className="menu-icon lg:hidden fixed right-4 bottom-4 z-10">
-          <button onClick={toggleSidebar} className="bg-indigo-600 p-2 rounded-full text-white hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 transition duration-300 ease-in-out">
-            {/* No svg icon here */}
-          </button>
-        </div>
+        </Router>
       </div>
-    </Router>
+      <div className="menu-icon lg:hidden fixed right-4 bottom-4 z-10">
+        <button onClick={toggleSidebar} className="bg-indigo-600 p-2 rounded-full text-white hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 transition duration-300 ease-in-out">
+          {/* No svg icon here */}
+        </button>
+      </div>
+    </div>
   );
+  
+  
+  
+  
 };
 
 

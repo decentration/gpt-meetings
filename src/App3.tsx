@@ -9,8 +9,6 @@ import CreateConversation from './components/CreateConversation';
 import Instances from './components/Instances';
 // import MemoryStream from './pages/MemoryStream';
 import { Instance } from './types';
-import Navbar from './components/Navbar';
-
 
 const App: React.FC = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -20,11 +18,7 @@ const App: React.FC = () => {
   const [activeConversation, setActiveConversation] = useState<any>(null);
   const [conversationHistory, setConversationHistory] = useState(null);
   const [instances, setInstances] = useState<Instance[]>([]);
-  const [showSidebar, setShowSidebar] = useState<boolean>(false);
 
-  const toggleSidebar = () => {
-    setShowSidebar(!showSidebar);
-  };
 
   const fetchConversations = async () => {
     try {
@@ -87,38 +81,40 @@ const App: React.FC = () => {
     }
   };
 
+  
   return (
-    <Router>
-      <div className="flex flex-col lg:flex-row lg:min-h-screen">
-        <div className={`sidebar w-full lg:w-64 bg-gray-100 p-4 ${showSidebar ? 'block' : 'hidden'}`}>
-          <Sidebar
-            conversationList={conversationList}
-            setActiveConversation={setActiveConversation}
-          />
+    <div className="App">
+      <CreateInstance instances={instances} setInstances={setInstances} />
+       <Router>
+      <nav>
+        <Link className="bg-white text-gray-600 font-bold px-3 py-2 rounded border-solid border-2 border-indigo-600" to="/instances">Instances</Link>
+      </nav>
+      <div>
+        <Routes>
+          <Route path="/instances" 
+            element={<Instances instances={instances} />}
+           />
+            {/* <Route path="/memory-stream" element={<MemoryStream />} /> */}
+        </Routes>     
         </div>
-        <div className="main-content flex-grow">
-          <Navbar toggleSidebar={toggleSidebar} />
-          <CreateInstance instances={instances} setInstances={setInstances} />
-          <CreateConversation instances={instances} />
-          <nav>
-            <Link className="bg-white text-gray-600 font-bold px-3 py-2 rounded border-solid border-2 border-indigo-600" to="/instances">Instances</Link>
-          </nav>
-          <div>
-            <Routes>
-              <Route path="/instances" element={<Instances instances={instances} />} />
-              {/* <Route path="/memory-stream" element={<MemoryStream />} /> */}
-            </Routes>
-          </div>
-        </div>
-        <div className="menu-icon lg:hidden fixed right-4 bottom-4 z-10">
-          <button onClick={toggleSidebar} className="bg-indigo-600 p-2 rounded-full text-white hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 transition duration-300 ease-in-out">
-            {/* No svg icon here */}
-          </button>
-        </div>
-      </div>
     </Router>
+     
+      
+    <CreateConversation instances={instances} />
+      <Sidebar
+        conversationList={conversationList}
+        setActiveConversation={setActiveConversation}
+      />
+      {activeConversation && (
+        <MainViewer activeConversation={activeConversation} />
+      )}
+      {/* <NewSystemMessageForm
+        socket={socket}
+        setConversationList={setConversationList}
+      /> */}
+       
+    </div>
   );
 };
-
 
 export default App;
